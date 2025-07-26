@@ -1,8 +1,22 @@
 # Entry point of the application for tracking user performance
 
 from performance.tracker import Tracker, sample_data, summarize_user_performance, benchmark_performance
+from performance.tracker import read_user_data_from_csv
 
 def main():
+    # Use 'user_data.csv' as the input data file
+    csv_path = "user_data.csv"
+    data = read_user_data_from_csv(csv_path)
+    if data:
+        results = summarize_user_performance(data)
+        print("Results from CSV data:")
+        for user, count in results.items():
+            print(f"{user} touched {count} unique accounts.")
+        avg = sum(results.values()) / len(results)
+        print(f"Average performance (unique accounts per user): {avg:.2f}")
+    else:
+        print("No valid data loaded from CSV.")
+
     # Show results using sample data
     results = summarize_user_performance(sample_data)
     for user, count in results.items():

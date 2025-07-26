@@ -1,6 +1,8 @@
 from collections import defaultdict
 from typing import Dict, Set, List
 import time
+import pandas as pd
+from typing import Optional
 
 class Tracker:
     """
@@ -70,3 +72,20 @@ def benchmark_performance(data: List[Dict[str, str]], repeat: int = 10000):
     print(f"Old method time: {old_time:.4f} seconds for {repeat} runs")
     print(f"New method time: {new_time:.4f} seconds for {repeat} runs")
     print(f"Performance improvement: {((old_time - new_time) / old_time * 100):.2f}% faster")
+
+def read_user_data_from_csv(csv_path: str) -> Optional[list]:
+    """
+    Reads user-account interaction data from a CSV file and returns a list of dicts.
+    The CSV should have columns: user, account
+    """
+    try:
+        df = pd.read_csv(csv_path)
+        # Ensure required columns exist
+        if 'user' in df.columns and 'account' in df.columns:
+            return df[['user', 'account']].to_dict(orient='records')
+        else:
+            print("CSV must contain 'user' and 'account' columns.")
+            return None
+    except Exception as e:
+        print(f"Error reading CSV: {e}")
+        return None
