@@ -1,5 +1,5 @@
 # User Performance Tracker
-# Code directed by Sudhakar Bellamkonda
+# Code Prompt Engineered by Sudhakar Bellamkonda
 
 This project is designed to track user performance based on the number of accounts they interact with in the system. It provides a structured way to log interactions and retrieve performance metrics for individual users.
 
