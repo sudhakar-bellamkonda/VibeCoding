@@ -3,31 +3,30 @@
 from performance.tracker import Tracker, sample_data, summarize_user_performance, benchmark_performance
 from performance.tracker import read_user_data_from_csv
 
+def process_and_print_summary(data, source_name: str):
+    """Summarizes, prints, and calculates average user performance."""
+    if not data:
+        print(f"No valid data loaded from {source_name}.")
+        return
+
+    results = summarize_user_performance(data)
+    print(f"\nResults from {source_name} data:")
+    if not results:
+        print("No performance data found to summarize.")
+        return
+
+    for user, count in results.items():
+        print(f"{user} touched {count} unique accounts.")
+
+    avg = sum(results.values()) / len(results)
+    print(f"Average performance (unique accounts per user): {avg:.2f}")
+
 def main():
     # Use 'user_data.csv' as the input data file
     csv_path = "user_data.csv"
-    data = read_user_data_from_csv(csv_path)
-    if data:
-        results = summarize_user_performance(data)
-        print("Results from CSV data:")
-        for user, count in results.items():
-            print(f"{user} touched {count} unique accounts.")
-        avg = sum(results.values()) / len(results)
-        print(f"Average performance (unique accounts per user): {avg:.2f}")
-    else:
-        print("No valid data loaded from CSV.")
-
-    # Show results using sample data
-    results = summarize_user_performance(sample_data)
-    for user, count in results.items():
-        print(f"{user} touched {count} unique accounts.")
-    
-    # Calculate and print average performance
-    if results:
-        avg = sum(results.values()) / len(results)
-        print(f"Average performance (unique accounts per user): {avg:.2f}")
-    else:
-        print("No data to calculate average performance.")
+    csv_data = read_user_data_from_csv(csv_path)
+    process_and_print_summary(csv_data, "CSV")
+    process_and_print_summary(sample_data, "sample")
     
     # Example usage of Tracker class
     tracker = Tracker()
